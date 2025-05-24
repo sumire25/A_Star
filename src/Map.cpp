@@ -5,7 +5,10 @@
 #include "Map.h"
 Map::Map(int rows, int cols, float cellSize)
     : rows(rows), cols(cols), cellSize(cellSize) {
-    grid.resize(rows, std::vector<bool>(cols, false)); // Inicializa todo como libre
+    grid.resize(rows, std::vector<bool>(cols, false));
+    if (!texture.loadFromFile("C:/Users/ERIK RAMOS/CLionProjects/A_Star/img/obstacle.png")) {
+        std::cout << "No se puede abrir la imagen";
+    }
 }
 
 void Map::draw(sf::RenderWindow& window) {
@@ -34,10 +37,9 @@ void Map::draw(sf::RenderWindow& window) {
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
             if (grid[i][j]) {
-                sf::RectangleShape obstacle({cellSize, cellSize});
-                obstacle.setPosition(sf::Vector2f{j * cellSize, i * cellSize});
-                obstacle.setFillColor(obstacleColor);
-                window.draw(obstacle);
+                sf::Sprite sprite(texture);
+                sprite.setPosition({j * cellSize, i * cellSize});
+                window.draw(sprite);
             }
         }
     }

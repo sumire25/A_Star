@@ -8,7 +8,7 @@
 // Macros
 #define WIN_HEIGHT 720
 #define WIN_WIDTH 1280
-#define CELL_SIZE 20 // divisor of 80
+#define CELL_SIZE 80 // divisor of 80
 
 #define CARDINALCOST 10
 #define DIAGONALCOST 14

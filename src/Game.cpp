@@ -32,6 +32,11 @@ void Game::stepA_Star() {
 	if (curr->state == target) {
 		inProgress = false;
 		cout << "best path cost: "<<curr->pathCost << endl;
+		shared_ptr<Node> currNode = reached[key];
+		while (currNode != nullptr) {
+			path.push({currNode->state.first, currNode->state.second});
+			currNode = currNode->parent;
+		}
 		return;
 	}
 	vector<shared_ptr<Node>> children = expandNode(curr);
@@ -71,6 +76,12 @@ vector<shared_ptr<Game::Node>> Game::expandNode(shared_ptr<Node> node) {
 Game::Game(int rows, int cols)
 	: map(rows, cols, CELL_SIZE)
 {
+	if (!jerryCharacter.loadFromFile("C:/Users/ERIK RAMOS/CLionProjects/A_Star/img/character.png")) {
+		std::cout << "No se puede abrir la imagen";
+	}
+	if (!cheese.loadFromFile("C:/Users/ERIK RAMOS/CLionProjects/A_Star/img/target.png")) {
+		std::cout << "No se puede abrir la imagen";
+	}
 	this->rows = WIN_HEIGHT / CELL_SIZE;
 	this->cols = WIN_WIDTH / CELL_SIZE;
 	map = Map(this->rows, this->cols, CELL_SIZE);
@@ -92,12 +103,16 @@ void Game::run() {
 		if (inProgress) {
 			drawAlgorithm();
 		}
+		if (!path.empty()) {
+			updatePosCharacter();
+		}
 		drawCharacter();
-		drawTarget();
-		window.display();
-		if(inProgress) {
+
+		if(inProgress || !path.empty()) {
+			drawTarget();
 			sf::sleep(sf::milliseconds(delayForSteps));
 		}
+		window.display();
 	}
 }
 
@@ -131,6 +146,22 @@ void Game::handleInput() {
 				dragging = false;
 			}
 		}
+		if (event -> is<sf::Event::MouseWheelScrolled>()) {
+			const auto* wheelEvent = event->getIf<sf::Event::MouseWheelScrolled>();
+			if (wheelEvent) {
+				if (wheelEvent->delta > 0) {
+					delayForSteps += 25;
+				} else if (wheelEvent->delta < 0) {
+					delayForSteps -= 25;
+					if (delayForSteps < 0) {
+						delayForSteps = 0;
+					}
+				}
+				cout << "Delay for steps: " << delayForSteps << endl;
+
+			}
+
+		}
 
 	}
 }
@@ -160,17 +191,25 @@ void Game::drawAlgorithm() {
 }
 
 void Game::drawCharacter() {
-	sf::RectangleShape characterShape({CELL_SIZE, CELL_SIZE});
-	characterShape.setPosition(sf::Vector2f{static_cast<float>(character.second * CELL_SIZE), static_cast<float>(character.first * CELL_SIZE)});
-	characterShape.setFillColor(sf::Color::Green);
-	window.draw(characterShape);
+	sf::Sprite charac(jerryCharacter);
+	charac.setPosition({static_cast<float>(character.second * CELL_SIZE), static_cast<float>(character.first * CELL_SIZE)});
+	window.draw(charac);
+
 }
 
 void Game::drawTarget() {
 	if (target.first >= 0 && target.second >= 0) {
-		sf::RectangleShape targetShape({CELL_SIZE, CELL_SIZE});
-		targetShape.setPosition(sf::Vector2f{static_cast<float>(target.second * CELL_SIZE), static_cast<float>(target.first * CELL_SIZE)});
-		targetShape.setFillColor(sf::Color::Red);
-		window.draw(targetShape);
+		sf::Sprite tar(cheese);
+		tar.setPosition({static_cast<float>(target.second * CELL_SIZE), static_cast<float>(target.first * CELL_SIZE)});
+		window.draw(tar);
 	}
+}
+void Game::updatePosCharacter() {
+	Point next = path.top();
+	if (character != next) {
+		character = next;
+	} else {
+		path.pop();
+	}
+
 }

@@ -6,15 +6,14 @@
 #define MAP_H
 #include <SFML/Graphics.hpp>
 #include "conventions.hpp"
-
+#include <iostream>
 
 class Map {
-
 public:
     std::vector<std::vector<bool>> grid;
     int rows, cols;
     float cellSize;
-
+    sf::Texture texture;
     Map(int rows, int cols, float cellSize);
     void draw(sf::RenderWindow& window);
     Point getCellPos(int x, int y) const;

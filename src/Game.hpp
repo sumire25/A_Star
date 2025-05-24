@@ -23,10 +23,10 @@ public:
 	Point drawStart;
 	Point drawEnd;
 	bool dragging;
-
 	//A_Star variables;
 	bool inProgress = false;
-	int delayForSteps = 100;
+	int delayForSteps = 350;
+	stack<Point> path;
 	Point target;
 	struct Node {
 		Point state;
@@ -55,7 +55,9 @@ public:
 	void startA_Star();
 	void stepA_Star();
 	vector<shared_ptr<Node>> expandNode(shared_ptr<Node> node);
-
+	// texturas
+	sf::Texture jerryCharacter;
+	sf::Texture cheese;
 	Game(int rows, int cols);
 	void run();
 	void handleInput();
@@ -63,6 +65,7 @@ public:
 	void drawGrid();
 	void drawAlgorithm();
 	void drawCharacter();
+	void updatePosCharacter();
 };
 
 
