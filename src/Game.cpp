@@ -11,22 +11,26 @@ Game::Game(int rows, int cols) {
 	target = {rand() % rows, rand() % cols};
 	grid.resize(rows, vector<bool>(cols, false));
 	//initialize sfml objects
-	window.create(sf::VideoMode({1080,720}), "Game");
+	window.create(sf::VideoMode({WIN_WIDTH,	WIN_HEIGHT}), "Game");
 	window.setFramerateLimit(60);
 }
 
 void Game::run() {
 	while(window.isOpen()) {
-		while (auto event = window.pollEvent()) {
-			if (event->is<sf::Event::Closed>()) {
-				window.close();
-			}
-		}
+		handleInput();
 		window.clear(sf::Color::Black);
 		drawGrid();
 		drawAlgorithm();
 		drawCharacterAndTarget();
 		window.display();
+	}
+}
+
+void Game::handleInput() {
+	while (auto event = window.pollEvent()) {
+		if (event->is<sf::Event::Closed>()) {
+			window.close();
+		}
 	}
 }
 

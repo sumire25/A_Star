@@ -7,9 +7,9 @@
 
 #include <bits/stdc++.h>
 #include <SFML/Graphics.hpp>
-using namespace std;
+#include "conventions.hpp"
 
-typedef pair<int, int> Point;
+using namespace std;
 
 class Game {
 public:
@@ -19,8 +19,12 @@ public:
 
 	sf::RenderWindow window;
 
+	//A_Star variables;
+	int speedOfSteps = 100;
+
 	Game(int rows, int cols);
 	void run();
+	void handleInput();
 	void drawGrid();
 	void drawAlgorithm();
 	void drawCharacterAndTarget();
