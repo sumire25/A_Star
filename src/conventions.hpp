@@ -10,7 +10,8 @@
 #define WIN_WIDTH 1280
 #define CELL_SIZE 20 // divisor of 80
 
-// cell size
+#define CARDINALCOST 10
+#define DIAGONALCOST 14
 
 // Types
 typedef std::pair<int, int> Point;
