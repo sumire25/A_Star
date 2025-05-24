@@ -19,6 +19,9 @@ public:
 	Point character;
 	Map map;
 	sf::RenderWindow window;
+	Point drawStart;
+	Point drawEnd;
+	bool dragging;
 
 	//A_Star variables;
 	bool inProgress = false;
@@ -28,6 +31,7 @@ public:
 	Game(int rows, int cols);
 	void run();
 	void handleInput();
+	void drawTarget();
 	void drawGrid();
 	void drawAlgorithm();
 	void drawCharacter();

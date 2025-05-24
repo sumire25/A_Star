@@ -10,7 +10,7 @@ Map::Map(int rows, int cols, float cellSize)
 
 void Map::draw(sf::RenderWindow& window) {
     sf::Color gridColor(100, 100, 100);
-    sf::Color obstacleColor(200, 50, 50);
+    sf::Color obstacleColor(150, 150, 150);
 
     // Líneas horizontales
     for (int i = 0; i <= rows; ++i) {
@@ -49,6 +49,24 @@ Point Map::getCellPos(int x, int y) const {
     if (row >= 0 && row < rows && col >= 0 && col < cols)
         return {row, col};
     return {-1, -1}; // fuera del mapa
+}
+
+void Map::setObstacle(int row, int col, bool value) {
+    if (row >= 0 && row < rows && col >= 0 && col < cols) {
+        grid[row][col] = value;
+    }
+}
+
+void Map::setObstacleRect(Point start, Point end, bool value) {
+    int r1 = std::min(start.first, end.first);
+    int r2 = std::max(start.first, end.first);
+    int c1 = std::min(start.second, end.second);
+    int c2 = std::max(start.second, end.second);
+    for (int i = r1; i <= r2; ++i) {
+        for (int j = c1; j <= c2; ++j) {
+            setObstacle(i, j, value);
+        }
+    }
 }
 
 

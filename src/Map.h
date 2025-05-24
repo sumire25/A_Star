@@ -18,6 +18,8 @@ public:
     Map(int rows, int cols, float cellSize);
     void draw(sf::RenderWindow& window);
     Point getCellPos(int x, int y) const;
+    void setObstacle(int row, int col, bool value = true);
+    void setObstacleRect(Point start, Point end, bool value = true);
 };
 
 
