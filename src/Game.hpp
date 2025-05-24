@@ -15,19 +15,21 @@ class Game {
 public:
 	vector<vector<bool>> grid;
 	int rows, cols;
-	Point character, target;
+	Point character;
 
 	sf::RenderWindow window;
 
 	//A_Star variables;
+	bool inProgress = false;
 	int speedOfSteps = 100;
+	Point target;
 
 	Game(int rows, int cols);
 	void run();
 	void handleInput();
 	void drawGrid();
 	void drawAlgorithm();
-	void drawCharacterAndTarget();
+	void drawCharacter();
 };
 
 

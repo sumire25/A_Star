@@ -8,7 +8,6 @@ Game::Game(int rows, int cols) {
 	rows = rows;
 	cols = cols;
 	character = {rows/2, cols/2};
-	target = {rand() % rows, rand() % cols};
 	grid.resize(rows, vector<bool>(cols, false));
 	//initialize sfml objects
 	window.create(sf::VideoMode({WIN_WIDTH,	WIN_HEIGHT}), "Game");
@@ -20,8 +19,10 @@ void Game::run() {
 		handleInput();
 		window.clear(sf::Color::Black);
 		drawGrid();
-		drawAlgorithm();
-		drawCharacterAndTarget();
+		if (inProgress) {
+			drawAlgorithm();
+		}
+		drawCharacter();
 		window.display();
 	}
 }
@@ -40,5 +41,5 @@ void Game::drawGrid() {
 void Game::drawAlgorithm() {
 }
 
-void Game::drawCharacterAndTarget() {
+void Game::drawCharacter() {
 }
